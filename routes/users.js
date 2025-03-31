@@ -1,44 +1,43 @@
-var express = require('express')
-var router = express.Router()
-var encryption = require('../utils/encryption.js')
-var mail = require('../models/emails.js')
-var usersModel = require('../models/users.js')
-require('dotenv').config()
+var express = require('express');
+var router = express.Router();
+var mail = require('../models/emails.js');
+var usersModel = require('../models/users.js');
+require('dotenv').config();
 
 router.post('/activate-user-account', async function(req, res, next) 
 {
 
-    let langId = req.query.langId
-    let userId = encryption.decrypt(req.query.userId)
-    let params = [userId, langId]
-    let data = await usersModel.activateAccount(params)
+    let langId = req.query.langId;
+    let userId = encryption.decrypt(req.query.userId);
+    let params = [userId, langId];
+    let data = await usersModel.activateAccount(params);
     
     res.send(data);
 
-})
+});
 
 router.get('/check-username', async function(req, res, next) 
 {
 
-    let langId = req.query.langId
-    let username = req.query.username
-    let params = [username, langId]
-    let data = await usersModel.checkUsername(params)
+    let langId = req.query.langId;
+    let username = req.query.username;
+    let params = [username, langId];
+    let data = await usersModel.checkUsername(params);
     
     res.send(data);
 
-})
+});
 
 router.get('/encrypt', async function(req, res, next) {
 
-    let data = encryption.encrypt(req.query.data)
-    res.send(data)
+    let data = encryption.encrypt(req.query.data);
+    res.send(data);
 
-})
+});
 
 router.post('/recover-user-password', async function(req, res, next) {
 
-    let email = encryption.decrypt(req.query.email)
+    let email = encryption.decrypt(req.query.email);
     let langId = req.query.langId;
     let params = [email, langId];
     let data = await usersModel.recoverUserPassword(params);
@@ -55,7 +54,7 @@ router.post('/recover-user-password', async function(req, res, next) {
 
     res.send(data);
 
-})
+});
 
 router.post('/sign-in', async function(req, res, next) {
 
