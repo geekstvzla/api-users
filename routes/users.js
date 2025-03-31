@@ -58,7 +58,7 @@ router.post('/recover-user-password', async function(req, res, next) {
 
 router.post('/sign-in', async function(req, res, next) {
 
-    let email = encryption.decrypt(req.query.email);
+    let email = req.query.email;
     let langId = req.query.langId;
     let password = encryption.decrypt(req.query.password);
     let params = [email, password, langId];
@@ -84,12 +84,11 @@ router.post('/sign-in', async function(req, res, next) {
 
 router.post('/sign-up', async function(req, res, next) {
 
-    let email = encryption.decrypt(req.query.email)
-    let langId = req.query.langId
-    let password = encryption.decrypt(req.query.password)
-    let userName = encryption.decrypt(req.query.username)
-    let params = [email, password, userName, langId]
-    let data = await usersModel.signUp(params)
+    let email = req.query.email;
+    let langId = req.query.langId;
+    let userName = req.query.username;
+    let params = [email, userName, langId];
+    let data = await usersModel.signUp(params);
 
     if(data.response.statusCode === 1)
     {
