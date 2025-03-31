@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_sign_up`(IN `p_email` TEXT, IN `p_password` TEXT, IN `p_username` VARCHAR(25), IN `p_lang_id` INT(3), OUT `p_response` TEXT)
+CREATE PROCEDURE `sp_sign_up`(IN `p_email` TEXT, IN `p_username` VARCHAR(25), IN `p_lang_id` INT(3), OUT `p_response` TEXT)
 BEGIN
 
     SELECT IF(COUNT(1) > 0,TRUE, FALSE)
@@ -15,8 +15,7 @@ BEGIN
 		
 		IF @v_username_exists = 0 THEN
         
-			SELECT AES_ENCRYPT(p_password, (SELECT value FROM setting WHERE name = "encrypt-key")) INTO @v_password;
-			INSERT INTO users (email, password, username, status_id) VALUE (LOWER(p_email), TRIM(@v_password), LOWER(p_username), 3);
+			INSERT INTO users (email, username, status_id) VALUE (LOWER(p_email), LOWER(p_username), 3);
 			SET @v_user_id = LAST_INSERT_ID();
             
             SELECT fn_messages("SP_SING_UP", 1, 1, p_lang_id) INTO @v_message_data;
