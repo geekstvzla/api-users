@@ -243,7 +243,7 @@ const signUp = (params) => {
                     } else {
                     
                         let outputParam = JSON.parse(result2[0].response);
-                        resolve(outputParam)
+                        resolve(outputParam);
                         
                     }   
 

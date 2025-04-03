@@ -2,7 +2,7 @@ CREATE FUNCTION `fn_messages`(p_description TEXT, p_status_code INT(2), p_messag
 BEGIN
     
     SELECT m.title,
-           m.message
+           CONVERT(m.message USING utf8)
 	INTO @v_title,
          @v_message
     FROM messages m
