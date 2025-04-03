@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_sign_in`(IN `p_email` TEXT, IN `p_password` TEXT, IN `p_lang_id` INT(3), OUT `p_response` TEXT)
+CREATE PROCEDURE `sp_sign_in`(IN `p_email` TEXT, OUT `p_response` TEXT)
 BEGIN
 
     SELECT IF(COUNT(1) > 0,TRUE, FALSE)
