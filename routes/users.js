@@ -85,9 +85,8 @@ router.post('/sign-in', async function(req, res, next) {
 router.post('/sign-up', async function(req, res, next) {
 
     let email = req.query.email;
-    let langId = req.query.langId;
     let userName = req.query.username;
-    let params = [email, userName, langId];
+    let params = [email, userName];
     let data = await usersModel.signUp(params);
 
     if(data.response.statusCode === 1)

@@ -211,7 +211,7 @@ const signUp = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_sign_up(?,?,?,@response);`
+        let queryString = `CALL sp_sign_up(?,?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
