@@ -152,7 +152,7 @@ const signIn = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_sign_in(?,?,?,@response);`
+        let queryString = `CALL sp_sign_in(?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {

@@ -60,8 +60,7 @@ router.post('/sign-in', async function(req, res, next) {
 
     let email = req.query.email;
     let langId = req.query.langId;
-    let password = encryption.decrypt(req.query.password);
-    let params = [email, password, langId];
+    let params = [email];
     let data = await usersModel.signIn(params);
  
     if(data.response.statusCode === 3)
@@ -85,6 +84,7 @@ router.post('/sign-in', async function(req, res, next) {
 router.post('/sign-up', async function(req, res, next) {
 
     let email = req.query.email;
+    let langId = req.query.langId;
     let userName = req.query.username;
     let params = [email, userName];
     let data = await usersModel.signUp(params);
