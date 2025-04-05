@@ -94,6 +94,65 @@ const checkUsername = (params) => {
 
 }
 
+const getUserAccessCode = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `CALL sp_get_user_access_code(?,@response);`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error executing stored procedure sp_get_user_access_code in line 101",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                })
+    
+            } else {
+                
+                db.query('SELECT @response as response', (err2, result2) => {
+
+                    if(err2) {
+    
+                        reject({
+                            response: {
+                                message: "Error when trying to execute the query in line 117",
+                                status: "error",
+                                statusCode: 0,
+                                error: err2
+                            }
+                        })
+            
+                    } else {
+                        
+                        let outputParam = JSON.parse(result2[0].response);
+
+                        if(outputParam.response.avatar) {
+                            outputParam.response.avatar = process.env.APP_URL+":"+process.env.APP_PORT+"/images/users/"+outputParam.response.avatar
+                        }
+
+                        resolve(outputParam)
+                        
+                    }   
+
+                })
+    
+            }
+    
+        })
+
+    }).catch(function(error) {
+
+        return(error);
+      
+    });
+
+};
+
 const recoverUserPassword = (params) => {
 
     return new Promise(function(resolve, reject) { 
@@ -264,6 +323,7 @@ const signUp = (params) => {
 module.exports = {
     activateAccount,
     checkUsername,
+    getUserAccessCode,
     recoverUserPassword,
     signIn,
     signUp

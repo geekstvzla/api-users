@@ -9,7 +9,8 @@ CREATE TABLE `users` (
   `gender_id` int DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `avatar` varchar(45) DEFAULT NULL,
-  `password` blob,
+  `access_code` int DEFAULT NULL,
+  `access_code_expire_at` datetime DEFAULT NULL,
   `status_id` varchar(45) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB;
+) ENGINE=MyISAM;

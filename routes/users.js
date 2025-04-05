@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var mail = require('../models/emails.js');
 var usersModel = require('../models/users.js');
 require('dotenv').config();
 
@@ -28,29 +27,17 @@ router.get('/check-username', async function(req, res, next)
 
 });
 
-router.get('/encrypt', async function(req, res, next) {
+router.get('/get-user-access-code', async function(req, res, next) {
 
-    let data = encryption.encrypt(req.query.data);
-    res.send(data);
-
-});
-
-router.post('/recover-user-password', async function(req, res, next) {
-
-    let email = encryption.decrypt(req.query.email);
+    let email = req.query.email;
     let langId = req.query.langId;
-    let params = [email, langId];
-    let data = await usersModel.recoverUserPassword(params);
+    let params = [email];
+    let data = await usersModel.getUserAccessCode(params);
 
-    if(data.response)
+    if(data.response.statusCode !== 1)
     {
-
-        emailParams = {email: email, password: data.response.password};
-        mail.recoverUserPassword(emailParams);
-        delete data.response.password;
-        delete data.response.sendEmail;
-
-    }
+        delete data.response.userId;
+    };
 
     res.send(data);
 
@@ -62,24 +49,15 @@ router.post('/sign-in', async function(req, res, next) {
     let langId = req.query.langId;
     let params = [email];
     let data = await usersModel.signIn(params);
- 
-    if(data.response.statusCode === 3)
-    {
-       
-        let url = process.env.APP_URL+":"+process.env.APP_PORT+"/activate-user-account?userId="+data.response.userId+"&langId="+req.query.langId;
-        let emailParams = {email: email, url: url, langId: langId};
-        mail.activateUserAccount(emailParams);
-   
-    }
 
     if(data.response.statusCode !== 1)
     {
         delete data.response.userId;
-    }
+    };
 
     res.send(data);
 
-})
+});
 
 router.post('/sign-up', async function(req, res, next) {
 
@@ -88,15 +66,6 @@ router.post('/sign-up', async function(req, res, next) {
     let userName = req.query.username;
     let params = [email, userName];
     let data = await usersModel.signUp(params);
-
-    if(data.response.statusCode === 1)
-    {
-        
-        let url = process.env.APP_URL+":"+process.env.APP_PORT+"/activate-user-account?userId="+data.response.userId+"&langId="+req.query.langId
-        let emailParams = {email: email, url: url, langId: langId}
-        mail.newUserAccount(emailParams)
-
-    }
 
     res.send(data)
 

@@ -1,90 +1,68 @@
-CREATE PROCEDURE `sp_sign_in`(IN `p_email` TEXT, OUT `p_response` TEXT)
+CREATE PROCEDURE `sp_sign_in`(IN `p_email` TEXT, IN `p_access_code` INT, OUT `p_response` TEXT)
 BEGIN
 
-    SELECT IF(COUNT(1) > 0,TRUE, FALSE)
-    INTO @v_user_exists
+    SELECT u.user_id,
+           u.access_code,
+           u.access_code_expire_at
+    INTO @v_user_id,
+         @v_current_access_code,
+         @v_expire_at
     FROM users u
     WHERE u.email = p_email;
     
-    IF @v_user_exists > 0 THEN
-
-        SELECT u.user_id,
-               u.username,
-               IF(
-                   u.avatar IS NULL OR u.avatar = '',
-				   'default-avatar.webp',
-                   u.avatar
-               ) avatar,
-               u.status_id,
-               s.description
-        INTO @v_user_id,
-             @v_username,
-             @v_avatar,
-             @v_user_status_id,
-             @v_user_status_desc
-        FROM users u
-        INNER JOIN status s ON s.value = u.status_id
-        AND s.table = "users"
-        WHERE u.email = p_email;
-
-		IF @v_user_status_id = 3 THEN
-			
-			SELECT fn_messages("SP_SING_IN", 3, 1) INTO @v_message_data;
-			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
+    IF @v_current_access_code = p_access_code AND @v_expire_at <= NOW() THEN
 		
-			SELECT CONCAT('{
-				"response" : {
-					"message"    : "',@v_message,'",
-					"status"     : "warning",
-					"statusCode" : 3,
-					"userId"     : ',@v_user_id,'
-				}
-			}') INTO p_response;
-
-		ELSEIF @v_user_status_id = 1 THEN
-			
-			SELECT fn_messages("SP_SING_IN", 1, 1) INTO @v_message_data;
-			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
-			
-			SELECT CONCAT('{
-				"response" : {
-					"avatar"     : "',@v_avatar,'",
-					"message"    : "',@v_message,'",
-					"username"   : "',@v_username,'",
-					"status"     : "success",
-					"statusCode" : 1,
-					"userId"     : ',@v_user_id,'
-				}
-			}') INTO p_response;
-
-		ELSE
-			
-			SELECT fn_messages("SP_SING_IN", 2, 1) INTO @v_message_data;
-			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
-			
-			SELECT CONCAT('{
-				"response" : {
-					"message"    : "',@v_message,' <b>',@v_user_status_desc,'</b>",
-					"status"     : "warning",
-					"statusCode" : 2
-				}
-			}') INTO p_response;
-
-		END IF;
-
-    ELSE
-		
-        SELECT fn_messages("SP_SING_IN", 0, 1) INTO @v_message_data;
+		SELECT fn_messages("SP_SING_IN", 1, 1) INTO @v_message_data;
 		SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
         
+		SELECT CONCAT('{
+			"response" : {
+				"message"    : "',@v_message,'",
+				"status"     : "success",
+				"statusCode" : 1,
+				"userId"     : ',@v_user_id,'
+			}
+		}') INTO p_response;
+        
         SELECT CONCAT('{
-		    "response" : {
-			    "message"    : "',@v_message,'",
+			"response" : {
+				"message"    : "',@v_message,'",
 				"status"     : "error",
-				"statusCode" : 0
-            }
-	    }') INTO p_response;
+				"statusCode" : 1,
+				"userId"     : ',@v_user_id,'
+			}
+		}') INTO p_response;
+        
+	ELSE
+    
+		IF @v_current_access_code = p_access_code AND @v_expire_at > NOW() THEN
+			
+			SET @v_user_id = 0;
+			SET @v_status_code = 2;
 
+		ELSEIF @v_current_access_code <> p_access_code THEN
+			
+			SET @v_user_id = 0;
+			SET @v_status_code = 3;
+		
+		ELSE
+			
+			SET @v_user_id = 0;
+			SET @v_status_code = 4;
+		
+		END IF;
+		
+		SELECT fn_messages("SP_SING_IN", @v_status_code, 1) INTO @v_message_data;
+		SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
+		
+		SELECT CONCAT('{
+			"response" : {
+				"message"    : "',@v_message,'",
+				"status"     : "error",
+				"statusCode" : ',@v_status_code,'
+			}
+		}') INTO p_response;
+    
     END IF;
 
 END;
