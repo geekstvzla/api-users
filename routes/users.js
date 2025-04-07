@@ -45,9 +45,10 @@ router.get('/get-user-access-code', async function(req, res, next) {
 
 router.post('/sign-in', async function(req, res, next) {
 
+    let accessCode = req.query.accessCode;
     let email = req.query.email;
     let langId = req.query.langId;
-    let params = [email];
+    let params = [email, accessCode];
     let data = await usersModel.signIn(params);
 
     if(data.response.statusCode !== 1)

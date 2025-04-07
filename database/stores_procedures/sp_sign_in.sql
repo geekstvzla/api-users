@@ -10,7 +10,7 @@ BEGIN
     FROM users u
     WHERE u.email = p_email;
     
-    IF @v_current_access_code = p_access_code AND @v_expire_at <= NOW() THEN
+    IF @v_current_access_code = p_access_code AND NOW() <= @v_expire_at THEN
 		
 		SELECT fn_messages("SP_SING_IN", 1, 1) INTO @v_message_data;
 		SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
@@ -27,7 +27,7 @@ BEGIN
         SELECT CONCAT('{
 			"response" : {
 				"message"    : "',@v_message,'",
-				"status"     : "error",
+				"status"     : "success",
 				"statusCode" : 1,
 				"userId"     : ',@v_user_id,'
 			}
@@ -35,7 +35,7 @@ BEGIN
         
 	ELSE
     
-		IF @v_current_access_code = p_access_code AND @v_expire_at > NOW() THEN
+		IF @v_current_access_code = p_access_code AND  NOW() > @v_expire_at THEN
 			
 			SET @v_user_id = 0;
 			SET @v_status_code = 2;

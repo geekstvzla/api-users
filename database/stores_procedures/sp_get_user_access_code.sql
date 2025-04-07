@@ -44,7 +44,7 @@ BEGIN
 			
 			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 1, 1) INTO @v_message_data;
 			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
-            SELECT FLOOR(100000 + RAND() * 999999) INTO @v_login_code;
+            SELECT FLOOR(0 + RAND() * 999999) INTO @v_login_code;
             SELECT NOW() + INTERVAL 2 MINUTE INTO @access_code_expiration_time;
             
             UPDATE users u SET u.access_code = @v_login_code,

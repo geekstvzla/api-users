@@ -211,14 +211,14 @@ const signIn = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_sign_in(?,@response);`
+        let queryString = `CALL sp_sign_in(?,?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
     
                 reject({
                     response: {
-                        message: "Error executing stored procedure sp_sign_in in line 155",
+                        message: "Error executing stored procedure sp_sign_in in line 214",
                         status: "error",
                         statusCode: 0,
                         error: err
@@ -233,7 +233,7 @@ const signIn = (params) => {
     
                         reject({
                             response: {
-                                message: "Error when trying to execute the query in line 171",
+                                message: "Error when trying to execute the query in line 230",
                                 status: "error",
                                 statusCode: 0,
                                 error: err2
