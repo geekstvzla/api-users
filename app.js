@@ -12,7 +12,7 @@ app.use('/users', usersRouter);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-    res.send('Hello World! '+process.env.API_PUBLIC);
+    res.send('Hello World! '+process.env.DB_PASSWORD);
 });
 
 app.listen(process.env.API_PORT, () => {
