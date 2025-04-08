@@ -2,9 +2,17 @@ CREATE PROCEDURE `sp_sign_in`(IN `p_email` TEXT, IN `p_access_code` INT, OUT `p_
 BEGIN
 
     SELECT u.user_id,
+           u.username,
+		   IF(
+			   u.avatar IS NULL OR u.avatar = '',
+			   'default-avatar.webp',
+			   u.avatar
+		   ) avatar,
            u.access_code,
            u.access_code_expire_at
     INTO @v_user_id,
+         @v_username,
+         @v_avatar,
          @v_current_access_code,
          @v_expire_at
     FROM users u
@@ -17,19 +25,12 @@ BEGIN
         
 		SELECT CONCAT('{
 			"response" : {
+                "avatar"     : "',@v_avatar,'",
 				"message"    : "',@v_message,'",
 				"status"     : "success",
 				"statusCode" : 1,
-				"userId"     : ',@v_user_id,'
-			}
-		}') INTO p_response;
-        
-        SELECT CONCAT('{
-			"response" : {
-				"message"    : "',@v_message,'",
-				"status"     : "success",
-				"statusCode" : 1,
-				"userId"     : ',@v_user_id,'
+				"userId"     : ',@v_user_id,',
+                "username"   : "',@v_username,'"
 			}
 		}') INTO p_response;
         
