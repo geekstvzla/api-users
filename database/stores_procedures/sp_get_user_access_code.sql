@@ -9,17 +9,9 @@ BEGIN
     IF @v_user_exists > 0 THEN
 
         SELECT u.user_id,
-               u.username,
-               IF(
-                   u.avatar IS NULL OR u.avatar = '',
-				   'default-avatar.webp',
-                   u.avatar
-               ) avatar,
                u.status_id,
                s.description
         INTO @v_user_id,
-             @v_username,
-             @v_avatar,
              @v_user_status_id,
              @v_user_status_desc
         FROM users u
@@ -44,7 +36,7 @@ BEGIN
 			
 			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 1, 1) INTO @v_message_data;
 			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
-            SELECT FLOOR(0 + RAND() * 999999) INTO @v_login_code;
+            SELECT LPAD(FLOOR(RAND() * 999999.99), 6, '0') INTO @v_login_code;
             SELECT NOW() + INTERVAL 2 MINUTE INTO @access_code_expiration_time;
             
             UPDATE users u SET u.access_code = @v_login_code,
@@ -53,10 +45,8 @@ BEGIN
 			
 			SELECT CONCAT('{
 				"response" : {
-                    "accessCode" : ',@v_login_code,',
-					"avatar"     : "',@v_avatar,'",
+                    "accessCode" : "',@v_login_code,'",
 					"message"    : "',@v_message,'",
-					"username"   : "',@v_username,'",
 					"status"     : "success",
 					"statusCode" : 1
 				}
