@@ -50,7 +50,7 @@ router.post('/sign-in', async function(req, res, next) {
     let langId = req.query.langId;
     let params = [email, accessCode];
     let data = await usersModel.signIn(params);
-
+    console.log(params)
     if(data.response.statusCode !== 1)
     {
         delete data.response.userId;
