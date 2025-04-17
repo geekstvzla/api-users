@@ -64,8 +64,8 @@ router.post('/sign-up', async function(req, res, next) {
 
     let email = req.query.email;
     let langId = req.query.langId;
-    let userName = req.query.username;
-    let params = [email, userName];
+    let username = req.query.username;
+    let params = [email, username];
     let data = await usersModel.signUp(params);
 
     res.send(data)
