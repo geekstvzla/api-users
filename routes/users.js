@@ -27,11 +27,12 @@ router.get('/check-username', async function(req, res, next)
 
 });
 
-router.get('/get-user-access-code', async function(req, res, next) {
+router.get('/get-access-code', async function(req, res, next) {
 
     let email = req.query.email;
     let langId = req.query.langId;
     let params = [email];
+
     let data = await usersModel.getUserAccessCode(params);
 
     if(data.response.statusCode !== 1)
