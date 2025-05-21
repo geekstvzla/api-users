@@ -14,4 +14,4 @@ CREATE TABLE `users` (
   `access_code_expire_at` datetime DEFAULT NULL,
   `status_id` varchar(45) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;

@@ -5,7 +5,6 @@ INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_GET_USER_ACCESS_CODE', '1', 'Login', 'User exists; a temporary password for access will be sent to the associated email', '1');
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_GET_USER_ACCESS_CODE', '2', 'Login', 'Your account is in status', '1');
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_GET_USER_ACCESS_CODE', '3', 'Login', 'The account is pending verification. We send you an email so you can activate it', '1');
-INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_GET_USER_ACCESS_CODE', '4', 'Login', 'Invalid password', '1');
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_SING_IN', '1', 'Login', 'Access granted', '1');
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_SING_IN', '2', 'Login', 'The access code has expired', '1');
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_SING_IN', '3', 'Login', 'The access code is invalid', '1');

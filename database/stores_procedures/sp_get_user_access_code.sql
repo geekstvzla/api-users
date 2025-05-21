@@ -9,13 +9,16 @@ BEGIN
     IF @v_user_exists > 0 THEN
 
         SELECT u.user_id,
+			   usi.secure_id,
                u.status_id,
                s.description
         INTO @v_user_id,
+             @v_secure_id,
              @v_user_status_id,
              @v_user_status_desc
         FROM users u
         INNER JOIN status s ON s.value = u.status_id
+        INNER JOIN user_secure_id usi ON usi.user_id = u.user_id
         AND s.table = "users"
         WHERE u.email = p_email;
 
@@ -26,6 +29,7 @@ BEGIN
 		
 			SELECT CONCAT('{
 				"response" : {
+                    "userId"     : "',@v_secure_id,'",
 					"message"    : "',@v_message,'",
 					"status"     : "warning",
 					"statusCode" : 3

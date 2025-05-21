@@ -9,13 +9,16 @@ BEGIN
 			   u.avatar
 		   ) avatar,
            u.access_code,
+           usi.secure_id,
            u.access_code_expire_at
     INTO @v_user_id,
          @v_username,
          @v_avatar,
          @v_current_access_code,
+         @v_secure_id,
          @v_expire_at
     FROM users u
+    INNER JOIN user_secure_id usi ON usi.user_id = u.user_id
     WHERE u.email = p_email;
     
     IF @v_current_access_code = p_access_code AND NOW() <= @v_expire_at THEN
@@ -29,7 +32,7 @@ BEGIN
 				"message"    : "',@v_message,'",
 				"status"     : "success",
 				"statusCode" : 1,
-				"userId"     : ',@v_user_id,',
+				"userId"     : "',@v_secure_id,'",
                 "username"   : "',@v_username,'"
 			}
 		}') INTO p_response;

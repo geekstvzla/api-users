@@ -35,11 +35,6 @@ router.get('/get-access-code', async function(req, res, next) {
 
     let data = await usersModel.getUserAccessCode(params);
 
-    if(data.response.statusCode !== 1)
-    {
-        delete data.response.userId;
-    };
-
     res.send(data);
 
 });
@@ -51,11 +46,6 @@ router.post('/sign-in', async function(req, res, next) {
     let langId = req.query.langId;
     let params = [email, accessCode];
     let data = await usersModel.signIn(params);
-   
-    if(data.response.statusCode !== 1)
-    {
-        delete data.response.userId;
-    };
 
     res.send(data);
 
