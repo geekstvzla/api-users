@@ -7,10 +7,10 @@ router.post('/activate-user-account', async function(req, res, next)
 {
 
     let langId = req.query.langId;
-    let userId = encryption.decrypt(req.query.userId);
-    let params = [userId, langId];
+    let userId = req.query.userId;
+    let params = [userId];
+  
     let data = await usersModel.activateAccount(params);
-    
     res.send(data);
 
 });

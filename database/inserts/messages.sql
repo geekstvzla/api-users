@@ -9,3 +9,7 @@ INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_SING_IN', '2', 'Login', 'The access code has expired', '1');
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_SING_IN', '3', 'Login', 'The access code is invalid', '1');
 INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_SING_IN', '4', 'Login', 'An error occurred', '1');
+INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_ACTIVATE_ACCOUNT_USER', '0', 'Activate user account', 'User account does not exist.', '1');
+INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_ACTIVATE_ACCOUNT_USER', '1', 'Activate user account', 'Your account has been successfully activated.', '1');
+INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_ACTIVATE_ACCOUNT_USER', '2', 'Activate user account', 'Your account has already been activated.', '1');
+INSERT INTO `messages` (`message_type_id`, `description`, `status_code`, `title`, `message`, `status_id`) VALUES ('1', 'SP_ACTIVATE_ACCOUNT_USER', '3', 'Activate user account', 'There is a problem trying to activate your account, please contact support.', '1');
