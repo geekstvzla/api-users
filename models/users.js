@@ -148,60 +148,6 @@ const getUserAccessCode = (params) => {
 
 };
 
-const recoverUserPassword = (params) => {
-
-    return new Promise(function(resolve, reject) { 
-
-        let queryString = `CALL sp_recover_user_password(?,?,@response);`
-        db.query(queryString, params, function(err, result) {
-
-            if(err) {
-    
-                reject({
-                    response: {
-                        message: "Error executing stored procedure sp_recover_user_password in line 101",
-                        status: "error",
-                        statusCode: 0,
-                        error: err
-                    }
-                })
-    
-            } else {
-
-                db.query('SELECT @response as response', (err2, result2) => {
-
-                    if(err2) {
-    
-                        reject({
-                            response: {
-                                message: "Error when trying to execute the query in line 76",
-                                status: "error",
-                                statusCode: 0,
-                                error: err2
-                            }
-                        })
-            
-                    } else {
-                    
-                        let outputParam = JSON.parse(result2[0].response);
-                        resolve(outputParam)
-                        
-                    }   
-
-                })
-    
-            }
-    
-        })
-
-    }).catch(function(error) {
-
-        return(error)
-      
-    })
-
-}
-
 const signIn = (params) => {
 
     return new Promise(function(resolve, reject) { 
@@ -319,7 +265,6 @@ module.exports = {
     activateAccount,
     checkUsername,
     getUserAccessCode,
-    recoverUserPassword,
     signIn,
     signUp
 }
