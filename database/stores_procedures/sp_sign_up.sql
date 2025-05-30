@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_sign_up`(IN `p_email` TEXT, IN `p_username` VARCHAR(25), OUT `p_response` TEXT)
+CREATE PROCEDURE `sp_sign_up`(IN `p_email` TEXT, IN `p_username` VARCHAR(25), IN p_language_id INT, OUT `p_response` TEXT)
 BEGIN
 
     SELECT IF(COUNT(1) > 0,TRUE, FALSE)
@@ -22,7 +22,7 @@ BEGIN
             
             INSERT INTO user_secure_id (user_id, secure_id) VALUE(@v_user_id, @v_user_secure_id);
             
-            SELECT fn_messages("SP_SING_UP", 1, 1) INTO @v_message_data;
+            SELECT fn_messages("SP_SING_UP", 1, 1, p_language_id) INTO @v_message_data;
 			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
 			
 			SELECT CONCAT('{
@@ -36,7 +36,7 @@ BEGIN
              
 		ELSE
 			
-			SELECT fn_messages("SP_SING_UP", 3, 1) INTO @v_message_data;
+			SELECT fn_messages("SP_SING_UP", 3, 1, p_language_id) INTO @v_message_data;
 			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
 			
 			SELECT CONCAT('{
@@ -51,7 +51,7 @@ BEGIN
 
     ELSE
         
-        SELECT fn_messages("SP_SING_UP", 2, 1) INTO @v_message_data;
+        SELECT fn_messages("SP_SING_UP", 2, 1, p_language_id) INTO @v_message_data;
 		SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
         
         SELECT CONCAT('{

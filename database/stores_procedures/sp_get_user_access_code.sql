@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_get_user_access_code`(IN `p_email` TEXT, OUT `p_response` TEXT)
+CREATE PROCEDURE `sp_get_user_access_code`(IN `p_email` TEXT, IN p_language_id INT, OUT `p_response` TEXT)
 BEGIN
 
     SELECT IF(COUNT(1) > 0,TRUE, FALSE)
@@ -24,7 +24,7 @@ BEGIN
 
 		IF @v_user_status_id = 3 THEN
 			
-			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 3, 1) INTO @v_message_data;
+			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 3, 1, p_language_id) INTO @v_message_data;
 			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
 		
 			SELECT CONCAT('{
@@ -38,7 +38,7 @@ BEGIN
 
 		ELSEIF @v_user_status_id = 1 THEN
 			
-			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 1, 1) INTO @v_message_data;
+			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 1, 1, p_language_id) INTO @v_message_data;
 			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
             SELECT LPAD(FLOOR(RAND() * 999999.99), 6, '0') INTO @v_login_code;
             SELECT NOW() + INTERVAL 2 MINUTE INTO @access_code_expiration_time;
@@ -58,7 +58,7 @@ BEGIN
 
 		ELSE
 			
-			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 2, 1) INTO @v_message_data;
+			SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 2, 1, p_language_id) INTO @v_message_data;
 			SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
 			
 			SELECT CONCAT('{
@@ -73,7 +73,7 @@ BEGIN
 
     ELSE
 		
-        SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 0, 1) INTO @v_message_data;
+        SELECT fn_messages("SP_GET_USER_ACCESS_CODE", 0, 1, p_language_id) INTO @v_message_data;
 		SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
         
         SELECT CONCAT('{

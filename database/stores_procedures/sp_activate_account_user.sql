@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_activate_account_user`(IN p_user_id TEXT, OUT p_response TEXT)
+CREATE PROCEDURE `sp_activate_account_user`(IN p_user_id TEXT, IN p_language_id INT, OUT p_response TEXT)
 BEGIN
     
     SELECT IF(COUNT(1) > 0,TRUE, FALSE),
@@ -25,7 +25,7 @@ BEGIN
 
 			UPDATE users u SET u.status_id = 1 WHERE u.user_id = @v_user_id;
             
-			SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 1, 1) INTO @v_message_data;
+			SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 1, 1, p_language_id) INTO @v_message_data;
 		    SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
             
             SELECT CONCAT('{
@@ -40,7 +40,7 @@ BEGIN
 
         ELSEIF @v_user_status_id = 1 THEN
 			
-			SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 2, 1) INTO @v_message_data;
+			SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 2, 1, p_language_id) INTO @v_message_data;
 		    SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
             
 			SELECT CONCAT('{
@@ -54,7 +54,7 @@ BEGIN
 
         ELSE
 			
-            SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 3, 1) INTO @v_message_data;
+            SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 3, 1, p_language_id) INTO @v_message_data;
 		    SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
         
 			SELECT CONCAT('{
@@ -70,7 +70,7 @@ BEGIN
 
     ELSE
 		
-        SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 0, 1) INTO @v_message_data;
+        SELECT fn_messages("SP_ACTIVATE_ACCOUNT_USER", 0, 1, p_language_id) INTO @v_message_data;
 		SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
         
         SELECT CONCAT('{
