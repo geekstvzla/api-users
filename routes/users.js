@@ -48,24 +48,30 @@ router.get('/get-access-code', async function(req, res, next) {
 
 });
 
+/*
+    Método para dar acceso al usuario
+*/
 router.post('/sign-in', async function(req, res, next) {
 
-    let accessCode = req.query.accessCode;
-    let email = req.query.email;
-    let langId = req.query.langId;
-    let params = [email, accessCode];
+    let accessCode = req.query.accessCode; // Código de acceso generado por la función /get-access-code
+    let email = req.query.email; // Correo asociado a la cuenta de usuario
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let params = [email, accessCode, langId];
     let data = await usersModel.signIn(params);
 
     res.send(data);
 
 });
 
+/*
+    Método para crear una nueva cuenta de usuario
+*/
 router.post('/sign-up', async function(req, res, next) {
 
-    let email = req.query.email;
-    let langId = req.query.langId;
-    let username = req.query.username;
-    let params = [email, username];
+    let email = req.query.email; // Correo asociado a la cuenta de usuario
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let username = req.query.username; // Nombre de usuario, es una cadena que puede tener letras y números. Ejemplo: usuario101
+    let params = [email, username, langId];
     let data = await usersModel.signUp(params);
 
     res.send(data)

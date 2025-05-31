@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_sign_in`(IN `p_email` TEXT, IN `p_access_code` INT, IN p_language_id INT, OUT `p_response` TEXT)
+CREATE PROCEDURE `sp_sign_in`(IN `p_email` TEXT, IN `p_access_code` INT, IN p_language_id VARCHAR(3), OUT `p_response` TEXT)
 BEGIN
 
     SELECT u.user_id,
