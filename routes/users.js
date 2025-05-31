@@ -3,23 +3,29 @@ var router = express.Router();
 var usersModel = require('../models/users.js');
 require('dotenv').config();
 
+/*
+    Se cambia el estatus del usuario pasando de estatus 3 (Pendiente por verificación) a 1 (activo)
+*/
 router.post('/activate-user-account', async function(req, res, next) 
 {
 
-    let langId = req.query.langId;
-    let userId = req.query.userId;
-    let params = [userId];
+    let langId = req.query.langId; // Id del usuario el cual es una cadena varchar entre números y letras
+    let userId = req.query.userId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let params = [userId, langId];
   
     let data = await usersModel.activateAccount(params);
     res.send(data);
 
 });
 
+/*
+    Se revisa si el nobre de usuario está disponible
+*/
 router.get('/check-username', async function(req, res, next) 
 {
 
-    let langId = req.query.langId;
-    let username = req.query.username;
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let username = req.query.username; // Nombre de usuario, es una cadena que puede tener letras y números. Ejemplo: usuario101
     let params = [username, langId];
     let data = await usersModel.checkUsername(params);
     
@@ -27,12 +33,15 @@ router.get('/check-username', async function(req, res, next)
 
 });
 
+/*
+    Código que se utiliza en sustitución de la contraseña para poder
+    acceder a los datos de la cuenta del usuario.
+*/
 router.get('/get-access-code', async function(req, res, next) {
 
-    let email = req.query.email;
-    let langId = req.query.langId;
-    let params = [email];
-
+    let email = req.query.email;   // Correo asociado a la cuenta de usuario. Ejemplo: correo@dominio.com
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let params = [email, langId];
     let data = await usersModel.getUserAccessCode(params);
 
     res.send(data);

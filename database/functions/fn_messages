@@ -1,16 +1,17 @@
-CREATE FUNCTION `fn_messages`(p_description TEXT, p_status_code INT(2), p_message_type_id INT(11), p_language_id INT(11)) RETURNS text CHARSET latin1
+CREATE FUNCTION `fn_messages`(p_description TEXT, p_status_code INT(2), p_message_type_id INT(11), p_language_id VARCHAR(3)) RETURNS text CHARSET latin1
 BEGIN
     
-    SELECT m.title,
+    SELECT CONVERT(m.title USING utf8),
            CONVERT(m.message USING utf8)
 	INTO @v_title,
          @v_message
     FROM messages m
         INNER JOIN message_type mt ON mt.message_type_id = m.message_type_id
+        INNER JOIN languages l ON l.language_id = m.language_id
     WHERE m.description = p_description 
     AND m.status_code = p_status_code
     AND mt.message_type_id = p_message_type_id
-    AND m.language_id = p_language_id;
+    AND UPPER(l.code) = UPPER(p_language_id);
     
 	SET @v_response = CONCAT('{
 		"title" : "',@v_title,'",

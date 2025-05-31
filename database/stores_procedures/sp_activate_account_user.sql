@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_activate_account_user`(IN p_user_id TEXT, IN p_language_id INT, OUT p_response TEXT)
+CREATE PROCEDURE `sp_activate_account_user`(IN p_user_id TEXT, IN p_language_id VARCHAR(3), OUT p_response TEXT)
 BEGIN
     
     SELECT IF(COUNT(1) > 0,TRUE, FALSE),

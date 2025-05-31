@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_get_user_access_code`(IN `p_email` TEXT, IN p_language_id INT, OUT `p_response` TEXT)
+CREATE PROCEDURE `sp_get_user_access_code`(IN `p_email` TEXT, IN p_language_id VARCHAR(3), OUT `p_response` TEXT)
 BEGIN
 
     SELECT IF(COUNT(1) > 0,TRUE, FALSE)

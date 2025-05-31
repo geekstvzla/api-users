@@ -5,7 +5,7 @@ const activateAccount = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_activate_account_user(?,@response);`
+        let queryString = `CALL sp_activate_account_user(?,?,@response);`;
         db.query(queryString, params, function(err, result) {
 
             if(err) {
@@ -16,7 +16,7 @@ const activateAccount = (params) => {
                         status: "error",
                         statusCode: 0
                     }
-                })
+                });
     
             } else {
 
@@ -30,26 +30,26 @@ const activateAccount = (params) => {
                                 status: "error",
                                 statusCode: 0
                             }
-                        })
+                        });
             
                     } else {
                     
                         let outputParam = JSON.parse(result2[0].response);
-                        resolve(outputParam)
+                        resolve(outputParam);
                         
                     }   
 
-                })
+                });
     
             }
     
-        })
+        });
 
     }).catch(function(error) {
 
-        return(error)
+        return(error);
       
-    })
+    });
 
 }
 
@@ -59,7 +59,7 @@ const checkUsername = (params) => {
 
         let queryString = `SELECT IF(COUNT(1) > 0, false, true) username_available 
                            FROM users u
-                           WHERE LOWER(u.username) = LOWER(?);`
+                           WHERE LOWER(u.username) = LOWER(?);`;
         db.query(queryString, params, function(err, result) {
 
             if(err) {
@@ -70,27 +70,27 @@ const checkUsername = (params) => {
                         status: "error",
                         statusCode: 0
                     }
-                })
+                });
     
             } else {
-    
+                console.log(result[0])
                 resolve({
                     response: {
                         status: "success",
                         statusCode: 1,
                         usernameAvailable: result[0].username_available
                     }
-                })
+                });
     
             }
     
-        })
+        });
 
     }).catch(function(error) {
 
         return(error)
       
-    })
+    });
 
 }
 
@@ -98,7 +98,7 @@ const getUserAccessCode = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_get_user_access_code(?,@response);`
+        let queryString = `CALL sp_get_user_access_code(?,?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
