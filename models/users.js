@@ -73,7 +73,7 @@ const checkUsername = (params) => {
                 });
     
             } else {
-                console.log(result[0])
+              
                 resolve({
                     response: {
                         status: "success",
