@@ -110,7 +110,7 @@ const getUserAccessCode = (params) => {
                         statusCode: 0,
                         error: err
                     }
-                })
+                });
     
             } else {
                 
@@ -125,7 +125,7 @@ const getUserAccessCode = (params) => {
                                 statusCode: 0,
                                 error: err2
                             }
-                        })
+                        });
             
                     } else {
                         
@@ -134,11 +134,11 @@ const getUserAccessCode = (params) => {
                         
                     }   
 
-                })
+                });
     
             }
     
-        })
+        });
 
     }).catch(function(error) {
 
@@ -147,6 +147,60 @@ const getUserAccessCode = (params) => {
     });
 
 };
+
+const getUserData = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `CALL sp_get_user_access_code(?,?,@response);`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error executing stored procedure sp_get_user_access_code in line 101",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                });
+    
+            } else {
+                
+                db.query('SELECT @response as response', (err2, result2) => {
+
+                    if(err2) {
+    
+                        reject({
+                            response: {
+                                message: "Error when trying to execute the query in line 117",
+                                status: "error",
+                                statusCode: 0,
+                                error: err2
+                            }
+                        });
+            
+                    } else {
+                        
+                        let outputParam = JSON.parse(result2[0].response);
+                        resolve(outputParam)
+                        
+                    }   
+
+                });
+    
+            }
+    
+        });
+
+    }).catch(function(error) {
+
+        return(error);
+      
+    });
+
+}
 
 const signIn = (params) => {
 
@@ -164,7 +218,7 @@ const signIn = (params) => {
                         statusCode: 0,
                         error: err
                     }
-                })
+                });
     
             } else {
                 
@@ -179,7 +233,7 @@ const signIn = (params) => {
                                 statusCode: 0,
                                 error: err2
                             }
-                        })
+                        });
             
                     } else {
                         
@@ -193,17 +247,17 @@ const signIn = (params) => {
                         
                     }   
 
-                })
+                });
     
             }
     
-        })
+        });
 
     }).catch(function(error) {
 
         return(error)
       
-    })
+    });
     
 }
 
@@ -223,7 +277,7 @@ const signUp = (params) => {
                         status: "error",
                         statusCode: 0
                     }
-                })
+                });
     
             } else {
 
@@ -238,7 +292,7 @@ const signUp = (params) => {
                                 status: "error",
                                 statusCode: 0
                             }
-                        })
+                        });
             
                     } else {
                     
@@ -247,17 +301,17 @@ const signUp = (params) => {
                         
                     }   
 
-                })
+                });
     
             }
     
-        })
+        });
 
     }).catch(function(error) {
 
         return(error)
       
-    })
+    });
     
 }
 
@@ -265,6 +319,7 @@ module.exports = {
     activateAccount,
     checkUsername,
     getUserAccessCode,
+    getUserData,
     signIn,
     signUp
 }

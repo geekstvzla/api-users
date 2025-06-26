@@ -49,6 +49,20 @@ router.get('/get-access-code', async function(req, res, next) {
 });
 
 /*
+    Código que se utiliza obtener la información del usuario.
+*/
+router.get('/get-user-data', async function(req, res, next) {
+
+    let userId = req.query.userId; // Id del usuario
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let params = [email, langId];
+    let data = await usersModel.getUserData(params);
+
+    res.send(data);
+
+});
+
+/*
     Método para dar acceso al usuario
 */
 router.post('/sign-in', async function(req, res, next) {

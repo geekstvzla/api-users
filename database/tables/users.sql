@@ -1,5 +1,8 @@
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
+  `document_type_id` varchar(30) DEFAULT NULL,
+  `document_id` VARCHAR(50) NULL,
+  `blood_type_id` INT NULL,
   `email` text NOT NULL,
   `username` text NOT NULL,
   `first_name` varchar(45) DEFAULT NULL,
