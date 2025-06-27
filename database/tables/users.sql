@@ -13,6 +13,7 @@ CREATE TABLE `users` (
   `birthday` date DEFAULT NULL,
   `avatar` varchar(45) DEFAULT NULL,
   `phone_number` varchar(20) DEFAULT NULL,
+  `emergency_phone` VARCHAR(20) NULL,
   `access_code` int DEFAULT NULL,
   `access_code_expire_at` datetime DEFAULT NULL,
   `status_id` varchar(45) NOT NULL,
