@@ -148,18 +148,21 @@ const getUserAccessCode = (params) => {
 
 };
 
-const getUserData = (params) => {
+const getBloodTypes = (params) => {
 
     return new Promise(function(resolve, reject) { 
-
-        let queryString = `CALL sp_get_user_access_code(?,?,@response);`
+       
+        let queryString = `SELECT blood_type_id,
+                                  description blood_type 
+                           FROM blood_type bt
+                           ORDER BY description;`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
     
                 reject({
                     response: {
-                        message: "Error executing stored procedure sp_get_user_access_code in line 101",
+                        message: "Error executing view vw_users in line 159",
                         status: "error",
                         statusCode: 0,
                         error: err
@@ -168,26 +171,139 @@ const getUserData = (params) => {
     
             } else {
                 
-                db.query('SELECT @response as response', (err2, result2) => {
-
-                    if(err2) {
+                resolve({
+                    response: {
+                        status: "success",
+                        statusCode: 1,
+                        documentTypes: result
+                    }
+                });
     
-                        reject({
-                            response: {
-                                message: "Error when trying to execute the query in line 117",
-                                status: "error",
-                                statusCode: 0,
-                                error: err2
-                            }
-                        });
-            
-                    } else {
-                        
-                        let outputParam = JSON.parse(result2[0].response);
-                        resolve(outputParam)
-                        
-                    }   
+            }
+    
+        });
 
+    }).catch(function(error) {
+
+        return(error);
+      
+    });
+
+
+};
+
+const getDocumentTypes = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+       
+        let queryString = `SELECT dt.document_type_id,
+                                  dt.document_type 
+                           FROM vw_document_types dt 
+                           WHERE dt.language_code = ?
+                           AND dt.status_id = 1
+                           ORDER BY document_type;`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error executing view vw_users in line 199",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                });
+    
+            } else {
+                
+                resolve({
+                    response: {
+                        status: "success",
+                        statusCode: 1,
+                        documentTypes: result
+                    }
+                });
+    
+            }
+    
+        });
+
+    }).catch(function(error) {
+
+        return(error);
+      
+    });
+
+}
+
+const getGenderTypes = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+       
+        let queryString = `SELECT gender_type_id, gender FROM vw_gender_types WHERE language_code = ? ORDER BY gender;`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error executing view vw_users in line 244",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                });
+    
+            } else {
+                
+                resolve({
+                    response: {
+                        status: "success",
+                        statusCode: 1,
+                        genderTypes: result
+                    }
+                });
+    
+            }
+    
+        });
+
+    }).catch(function(error) {
+
+        return(error);
+      
+    });
+
+
+};
+
+const getUserData = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+       
+        let queryString = `SELECT * FROM vw_users u WHERE u.secure_id = ?;`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error executing view vw_users in line 288",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                });
+    
+            } else {
+                
+                resolve({
+                    response: {
+                        status: "success",
+                        statusCode: 1,
+                        userData: result[0]
+                    }
                 });
     
             }
@@ -213,7 +329,7 @@ const signIn = (params) => {
     
                 reject({
                     response: {
-                        message: "Error executing stored procedure sp_sign_in in line 214",
+                        message: "Error executing stored procedure sp_sign_in in line 328",
                         status: "error",
                         statusCode: 0,
                         error: err
@@ -228,7 +344,7 @@ const signIn = (params) => {
     
                         reject({
                             response: {
-                                message: "Error when trying to execute the query in line 230",
+                                message: "Error when trying to execute the query in line 344",
                                 status: "error",
                                 statusCode: 0,
                                 error: err2
@@ -273,7 +389,7 @@ const signUp = (params) => {
                 reject({
                     response: {
                         error: err,
-                        message: "Error executing stored procedure sp_sign_up in line 214",
+                        message: "Error executing stored procedure sp_sign_up in line 387",
                         status: "error",
                         statusCode: 0
                     }
@@ -288,7 +404,7 @@ const signUp = (params) => {
                         reject({
                             response: {
                                 error: err2,
-                                message: "Error when trying to execute the query in line 230",
+                                message: "Error when trying to execute the query in line 403",
                                 status: "error",
                                 statusCode: 0
                             }
@@ -317,8 +433,11 @@ const signUp = (params) => {
 
 module.exports = {
     activateAccount,
+    getBloodTypes,
     checkUsername,
     getUserAccessCode,
+    getDocumentTypes,
+    getGenderTypes,
     getUserData,
     signIn,
     signUp

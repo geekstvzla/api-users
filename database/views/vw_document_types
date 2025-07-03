@@ -1,0 +1,8 @@
+CREATE VIEW vw_document_types AS
+SELECT dtl.document_type_id,
+       dtl.description document_type,
+       dtl.language_id,
+       l.code language_code,
+       dtl.status_id
+FROM document_type_lang dtl
+INNER JOIN languages l ON l.language_id = dtl.language_id;

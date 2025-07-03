@@ -49,13 +49,56 @@ router.get('/get-access-code', async function(req, res, next) {
 });
 
 /*
+    Código que se utiliza para obtener los tipos de sangre.
+*/
+router.get('/get-blood-types', async function(req, res, next) {
+
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let params = [langId];
+ 
+    let data = await usersModel.getBloodTypes(params);
+   
+    res.send(data);
+
+});
+
+/*
+    Código que se utiliza para obtener los tipos de documento de identificación.
+*/
+router.get('/get-document-types', async function(req, res, next) {
+
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let params = [langId];
+ 
+    let data = await usersModel.getDocumentTypes(params);
+   
+    res.send(data);
+
+});
+
+/*
+    Código que se utiliza para obtener los tipos de genero.
+*/
+router.get('/get-gender-types', async function(req, res, next) {
+
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    let params = [langId];
+ 
+    let data = await usersModel.getGenderTypes(params);
+   
+    res.send(data);
+
+});
+
+/*
     Código que se utiliza obtener la información del usuario.
 */
 router.get('/get-user-data', async function(req, res, next) {
 
     let userId = req.query.userId; // Id del usuario
     let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
-    let params = [email, langId];
+    let params = [userId, langId];
+ 
     let data = await usersModel.getUserData(params);
 
     res.send(data);
