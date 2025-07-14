@@ -133,6 +133,34 @@ router.post('/sign-up', async function(req, res, next) {
 
     res.send(data);
 
-})
+});
+
+/*
+    Método para actualizar los datos del usuario
+*/
+router.post('/update-user-data', async function(req, res, next) {
+
+    let params = [
+        req.query.userId, // Id del usuario
+        req.query.firstName, // Primer nombre del usuario
+        req.query.middleName, // Segundo nombre del usuario
+        req.query.lastName, // Primer apellido del usuario
+        req.query.secondLastName, // Segundo apellido del usuario
+        req.query.documentTypeId, // Id del tipo de documento. Ejemplo 1 => Cédula
+        req.query.document, // Número de documento asociado al tipo de documento
+        req.query.birthday, // Fecha de cumpleaños del usuario
+        req.query.genderId, // Id del genero del usuario
+        req.query.bloodTypeId, // Tipo de sangre del usuario. Ejemplo: 8 => O-
+        req.query.phoneNumber, // Número de teléfono del usuario
+        req.query.emergencyPhoneNumber, // Número de teléfono de emergencia del usuario
+        req.query.medicalCondition, // Condición médica del usuario
+        req.query.langId // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+    ];
+
+    let data = await usersModel.updateUserData(params);
+
+    res.send(data);
+
+});
 
 module.exports = router;
