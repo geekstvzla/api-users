@@ -63,6 +63,19 @@ router.get('/get-blood-types', async function(req, res, next) {
 });
 
 /*
+    Código que se utiliza para obtener los códigos de teléfono asociado a los paises.
+*/
+router.get('/get-countries-phone-codes', async function(req, res, next) {
+
+    let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
+ 
+    let data = await usersModel.getCountriesPhoneCodes();
+   
+    res.send(data);
+
+});
+
+/*
     Código que se utiliza para obtener los tipos de documento de identificación.
 */
 router.get('/get-document-types', async function(req, res, next) {

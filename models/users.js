@@ -192,6 +192,50 @@ const getBloodTypes = (params) => {
 
 };
 
+const getCountriesPhoneCodes = () => {
+
+    return new Promise(function(resolve, reject) { 
+       
+        let queryString = `SELECT c.phone_number_code 
+                           FROM countries c
+                           WHERE c.status_id = 1
+                           ORDER BY c.phone_number_code;`
+        db.query(queryString, [], function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error executing view vw_users in line 195",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                });
+    
+            } else {
+                
+                resolve({
+                    response: {
+                        status: "success",
+                        statusCode: 1,
+                        phoneCodes: result
+                    }
+                });
+    
+            }
+    
+        });
+
+    }).catch(function(error) {
+
+        return(error);
+      
+    });
+
+
+};
+
 const getDocumentTypes = (params) => {
 
     return new Promise(function(resolve, reject) { 
@@ -487,11 +531,12 @@ const updateUserData = (params) => {
 
 module.exports = {
     activateAccount,
-    getBloodTypes,
     checkUsername,
-    getUserAccessCode,
+    getBloodTypes,
+    getCountriesPhoneCodes,
     getDocumentTypes,
     getGenderTypes,
+    getUserAccessCode,
     getUserData,
     signIn,
     signUp,
