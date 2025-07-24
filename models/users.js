@@ -479,7 +479,7 @@ const updateUserData = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_update_user_personal_data(?,?,?,?,?,?,?,?,?,?,?,?,?,?,@response);`
+        let queryString = `CALL sp_update_user_personal_data(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {

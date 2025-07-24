@@ -164,7 +164,9 @@ router.post('/update-user-data', async function(req, res, next) {
         req.query.birthday, // Fecha de cumpleaños del usuario
         req.query.genderId, // Id del genero del usuario
         req.query.bloodTypeId, // Tipo de sangre del usuario. Ejemplo: 8 => O-
+        req.query.countryPhoneCode, // Código telefonico del país
         req.query.phoneNumber, // Número de teléfono del usuario
+        req.query.countryEmergencyPhoneCode, // Código telefonico del país
         req.query.emergencyPhoneNumber, // Número de teléfono de emergencia del usuario
         req.query.medicalCondition, // Condición médica del usuario
         req.query.langId // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
