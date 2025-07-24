@@ -101,7 +101,7 @@ BEGIN
 				UPDATE users u  SET u.phone_number = p_phone_number WHERE u.user_id = @v_user_id;
             END IF;
             
-            IF p_emergency_phone_number != @v_emergency_phone THEN
+            IF p_emergency_phone_number != @v_emergency_phone_number THEN
 				UPDATE users u  SET u.emergency_phone = p_emergency_phone_number WHERE u.user_id = @v_user_id;
             END IF;
             
