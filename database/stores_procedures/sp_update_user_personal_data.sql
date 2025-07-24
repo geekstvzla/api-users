@@ -1,5 +1,5 @@
 CREATE PROCEDURE `sp_update_user_personal_data`(
-	IN p_user_id TEXT, 
+	 IN p_user_id TEXT, 
     IN p_first_name VARCHAR(50),
     IN p_middle_name VARCHAR(50),
     IN p_last_name VARCHAR(50),
@@ -14,7 +14,8 @@ CREATE PROCEDURE `sp_update_user_personal_data`(
     IN p_medical_condition TEXT,
     IN p_language_id VARCHAR(3), 
     OUT p_response TEXT
-) BEGIN
+)
+BEGIN
     
     SELECT IF(COUNT(1) > 0,TRUE, FALSE),
 		   status_id
@@ -27,18 +28,19 @@ CREATE PROCEDURE `sp_update_user_personal_data`(
     IF @v_user_exists = 1 THEN
     
         SELECT u.user_id,
-               u.document_type_id,
-               u.document_id,
-               u.blood_type_id,
-               u.first_name,
-               u.middle_name,
-               u.last_name,
-               u.second_last_name,
-               u.gender_id,
-               u.birthday,
-               u.phone_number,
-               u.emergency_phone,
-               u.medical_condition
+               IF(u.document_type_id IS NULL, '', u.document_type_id),
+               IF(u.document_id IS NULL, '', u.document_id),
+               IF(u.blood_type_id IS NULL, '', u.blood_type_id),
+               IF(u.first_name IS NULL, '', u.first_name),
+               IF(u.middle_name IS NULL, '', u.middle_name),
+               IF(u.last_name IS NULL, '', u.last_name),
+               IF(u.second_last_name IS NULL, '', u.second_last_name),
+               IF(u.gender_id IS NULL, '', u.gender_id),
+               IF(u.birthday IS NULL, '', u.birthday),
+               IF(u.phone_number IS NULL, '', u.phone_number),
+               IF(u.emergency_phone_number IS NULL, '', u.emergency_phone_number),
+               IF(u.medical_condition IS NULL, '', u.medical_condition),
+               u.status_id
 		INTO @v_user_id,
              @v_document_type_id,
              @v_document_id,
@@ -50,8 +52,9 @@ CREATE PROCEDURE `sp_update_user_personal_data`(
              @v_gender_id,
              @v_birthday,
              @v_phone_number,
-             @v_emergency_phone,
-             @v_medical_condition
+             @v_emergency_phone_number,
+             @v_medical_condition,
+             @v_user_status_id
         FROM users u 
         INNER JOIN user_secure_id usi ON usi.user_id = u.user_id
         WHERE usi.secure_id = p_user_id;
@@ -106,7 +109,7 @@ CREATE PROCEDURE `sp_update_user_personal_data`(
 				UPDATE users u  SET u.medical_condition = p_medical_condition WHERE u.user_id = @v_user_id;
             END IF;
             
-			SELECT fn_messages("SP_UPDATE_USER_PERSONAL_DATA", 0, 1, p_language_id) INTO @v_message_data;
+			SELECT fn_messages("SP_UPDATE_USER_PERSONAL_DATA", 1, 1, p_language_id) INTO @v_message_data;
 		    SELECT JSON_UNQUOTE(JSON_EXTRACT(@v_message_data, '$.message')) INTO @v_message;
             
             SELECT CONCAT('{

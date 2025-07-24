@@ -14,7 +14,7 @@ SELECT u.user_id,
        u.gender_id,
        u.birthday,
        u.phone_number,
-       u.emergency_phone,
+       u.emergency_phone_number,
        u.medical_condition,
        u.status_id,
        s.description AS status

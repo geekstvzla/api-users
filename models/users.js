@@ -443,7 +443,7 @@ const updateUserData = (params) => {
                 reject({
                     response: {
                         error: err,
-                        message: "Error executing stored procedure sp_sign_up in line 387",
+                        message: "Error executing stored procedure sp_sign_up in line 438",
                         status: "error",
                         statusCode: 0
                     }
@@ -458,7 +458,7 @@ const updateUserData = (params) => {
                         reject({
                             response: {
                                 error: err2,
-                                message: "Error when trying to execute the query in line 403",
+                                message: "Error when trying to execute the query in line 454",
                                 status: "error",
                                 statusCode: 0
                             }
