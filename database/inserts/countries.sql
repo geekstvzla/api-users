@@ -1,0 +1,1 @@
+INSERT INTO `countries` (`name`, `phone_number_code`, `iso_a2`, `iso_a3`, `status_id`) VALUES ('Venezuela', '58', 'VE', 'VEN', '1');
