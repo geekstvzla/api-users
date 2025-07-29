@@ -113,7 +113,6 @@ router.get('/get-user-data', async function(req, res, next) {
     let params = [userId, langId];
  
     let data = await usersModel.getUserData(params);
-
     res.send(data);
 
 });
