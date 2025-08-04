@@ -170,7 +170,7 @@ router.post('/update-user-data', async function(req, res, next) {
         req.query.medicalCondition, // Condición médica del usuario
         req.query.langId // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
     ];
-    console.log(params)
+    
     let data = await usersModel.updateUserData(params);
 
     res.send(data);
