@@ -1,13 +1,13 @@
-let transporter = require('../config/mail.js')
-const Email = require('email-templates')
+let transporter = require('../config/mail.js');
+const Email = require('email-templates');
 
 const activateUserAccount = (params) => 
 {
     
-    let locale = translation(params.langId)
-    params.from = '"LOGISTICO" <contacto@logistico.com.ve>'
-    params.template = 'activateUserAccount/' + locale
-    sendEmailTemplate(params)
+    let locale = translation(params.langId);
+    params.from = '"LOGISTICO" <contacto@logistico.com.ve>';
+    params.template = 'activateUserAccount/' + locale;
+    sendEmailTemplate(params);
 
 }
 
