@@ -42,7 +42,6 @@ router.get('/get-access-code', async function(req, res, next) {
     let email = req.query.email;   // Correo asociado a la cuenta de usuario. Ejemplo: correo@dominio.com
     let langId = req.query.langId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
     let params = [email, langId];
-    res.send(params); return;
     let data = await usersModel.getUserAccessCode(params);
 
     res.send(data);
