@@ -12,9 +12,7 @@ app.use('/users', usersRouter);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-
-    let p = process.env.API_PORT;
-    res.send('GeekST API '+p);
+    res.send('GeekST API');
 });
 
 app.listen(process.env.API_PORT, () => {
