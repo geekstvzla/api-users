@@ -142,7 +142,7 @@ const getUserAccessCode = (params) => {
 
     }).catch(function(error) {
 
-        return(error);
+        reject(error);
       
     });
 
