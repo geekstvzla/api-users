@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
 
-    let p = 2;
+    let p = process.env.API_PORT;
     res.send('GeekST API '+p);
 });
 
