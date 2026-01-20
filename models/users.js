@@ -99,7 +99,6 @@ const getUserAccessCode = (params) => {
     return new Promise(function(resolve, reject) { 
 
         let queryString = `CALL sp_get_user_access_code(?,?,@response);`;
-        return queryString;
         db.query(queryString, params, function(err, result) {
 
             if(err) {
