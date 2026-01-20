@@ -18,7 +18,7 @@ const sendEmailTemplate = (params) =>
         message: {
             from: params.from
         },
-        preview: true,
+        preview: false,
         send: true,
         transport: transporter
     })
