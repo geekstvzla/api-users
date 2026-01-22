@@ -457,6 +457,11 @@ const signUp = (params) => {
                     } else {
                     
                         let outputParam = JSON.parse(result2[0].response);
+
+                        if(outputParam.response.userAvatar) {
+                            outputParam.response.userAvatar = process.env.API_PUBLIC+"/images/users/"+outputParam.response.userAvatar
+                        }
+                        console.log(outputParam.response)
                         resolve(outputParam);
                         
                     }   
