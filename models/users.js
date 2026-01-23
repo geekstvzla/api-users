@@ -351,7 +351,7 @@ const getUserData = (params) => {
                     response: {
                         status: "success",
                         statusCode: 1,
-                        userData: (result[0]) ? esult[0] : {}
+                        userData: (result[0]) ? result[0] : {}
                     }
                 });
     
