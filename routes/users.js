@@ -9,9 +9,10 @@ require('dotenv').config();
 router.post('/activate-user-account', async function(req, res, next) 
 {
 
+    let code = req.query.code; // Cödigo que se le evnio al correo del usuario para validar dicho correo
     let langId = req.query.langId; // Id del usuario el cual es una cadena varchar entre números y letras
     let userId = req.query.userId; // Id del idioma en la cual se traducirán los mensajes. Ejemplo: esp, eng
-    let params = [userId, langId];
+    let params = [userId, code, langId];
   
     let data = await usersModel.activateAccount(params);
     res.send(data);

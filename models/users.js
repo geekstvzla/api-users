@@ -5,7 +5,7 @@ const activateAccount = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_activate_account_user(?,?,@response);`;
+        let queryString = `CALL sp_activate_account_user(?,?,?,@response);`;
         db.query(queryString, params, function(err, result) {
 
             if(err) {
@@ -35,6 +35,11 @@ const activateAccount = (params) => {
                     } else {
                     
                         let outputParam = JSON.parse(result2[0].response);
+
+                        if(outputParam.response.avatar) {
+                            outputParam.response.avatar = process.env.API_PUBLIC+"/images/users/"+outputParam.response.avatar
+                        }
+
                         resolve(outputParam);
                         
                     }   
