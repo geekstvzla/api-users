@@ -351,7 +351,7 @@ const getUserData = (params) => {
                     response: {
                         status: "success",
                         statusCode: 1,
-                        userData: result[0]
+                        userData: (result[0]) ? esult[0] : {}
                     }
                 });
     
@@ -466,7 +466,7 @@ const signUp = (params) => {
                         if(outputParam.response.userAvatar) {
                             outputParam.response.userAvatar = process.env.API_PUBLIC+"/images/users/"+outputParam.response.userAvatar
                         }
-                        console.log(outputParam.response)
+                        
                         resolve(outputParam);
                         
                     }   
