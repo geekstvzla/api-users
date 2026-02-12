@@ -110,7 +110,7 @@ const getUserAccessCode = (params) => {
     
                 reject({
                     response: {
-                        message: "Error executing stored procedure sp_get_user_access_code in line 101",
+                        message: "Error executing stored procedure sp_get_user_access_code in line 106",
                         status: "error",
                         statusCode: 0,
                         error: err
@@ -125,7 +125,7 @@ const getUserAccessCode = (params) => {
     
                         reject({
                             response: {
-                                message: "Error when trying to execute the query in line 117",
+                                message: "Error when trying to execute the query in line 122",
                                 status: "error",
                                 statusCode: 0,
                                 error: err2
@@ -146,8 +146,8 @@ const getUserAccessCode = (params) => {
         });
 
     }).catch(function(error) {
-
-        reject(error);
+        
+        return error;
       
     });
 
