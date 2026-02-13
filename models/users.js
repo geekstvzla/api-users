@@ -35,11 +35,6 @@ const activateAccount = (params) => {
                     } else {
                     
                         let outputParam = JSON.parse(result2[0].response);
-
-                        if(outputParam.response.avatar) {
-                            outputParam.response.avatar = process.env.API_PUBLIC+"/images/users/"+outputParam.response.avatar
-                        }
-
                         resolve(outputParam);
                         
                     }   
